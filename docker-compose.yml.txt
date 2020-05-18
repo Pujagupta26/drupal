@@ -1,0 +1,31 @@
+version: '3'
+services:
+  mysqlos:
+    image: mysql:5.7
+    volumes:
+      - mysql_storage_new:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_USER: puja
+      MYSQL_PASSWORD: puja123
+      MYSQL_DATABASE: mydb
+
+
+  joomlaos:    image:  drupal:8.8.5-apache
+    restart: always
+    depends_on:
+      - mysqlos
+    ports:
+      - 8074:80
+    environment:
+      DRUPAL_DB_HOST: mysql:3306
+      DRUPAL_DB_USER: puja
+      DRUPAL_DB_PASSWORD: puja123
+      DRUPAL_DB_NAME: mydb
+    volumes:
+      - jm_storage_new:/var/www/html
+volumes:
+  jm_storage_new:
+  mysql_storage_new:
+      
